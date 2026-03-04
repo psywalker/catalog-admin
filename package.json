@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "effector": "^23.4.4",
     "effector-react": "^23.3.0",
+    "patronum": "^2.3.0",
     "react": "^18.3.1",
     "react-aria-components": "^1.15.1",
     "react-dom": "^18.3.1",
@@ -25,9 +27,12 @@
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^5.1.1",
     "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "prettier": "^3.8.1",
     "sass": "^1.97.3",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
