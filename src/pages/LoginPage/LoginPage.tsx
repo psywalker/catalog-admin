@@ -1,15 +1,10 @@
-import soundIconUrl from '@/assets/sound.svg';
+import { LoginForm } from '@/features/LoginForm';
+import styles from './LoginPage.module.scss';
 
 export const LoginPage = () => {
   return (
-    <div>
-      <div>
-        <img src={soundIconUrl} alt="sound" />
-      </div>
-      <div>
-        <h1>Добро пожаловать</h1>
-        <p>Пожалуйста, авторизируйтесь</p>
-      </div>
+    <div className={styles.container}>
+      <LoginForm />
     </div>
   );
 };
