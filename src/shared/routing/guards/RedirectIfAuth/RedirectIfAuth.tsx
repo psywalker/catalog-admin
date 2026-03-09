@@ -1,13 +1,9 @@
+import type { ReactElement } from 'react';
 import { useUnit } from 'effector-react';
 import { Navigate } from 'react-router-dom';
-
 import { $isAuth } from '@/entities/auth/model';
 
-type RedirectIfAuthProps = {
-  children: JSX.Element;
-};
-
-export const RedirectIfAuth = ({ children }: RedirectIfAuthProps) => {
+export function RedirectIfAuth({ children }: { children: ReactElement }) {
   const isAuth = useUnit($isAuth);
 
   if (isAuth) {
@@ -15,4 +11,4 @@ export const RedirectIfAuth = ({ children }: RedirectIfAuthProps) => {
   }
 
   return children;
-};
+}

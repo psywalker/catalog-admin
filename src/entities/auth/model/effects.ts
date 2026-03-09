@@ -1,26 +1,15 @@
 import { createEffect } from 'effector';
-import { login } from '../api/login';
-import type { LoginApiResponse } from '../api/types';
+import { fetchLogin } from '../api/fetchLogin';
 import { setToken, clearToken } from '@/shared/lib/storage';
 
-export type LoginParams = {
-  username: string;
-  password: string;
-  remember: boolean;
-};
+export const loginFx = createEffect(fetchLogin);
 
-export const loginFx = createEffect<LoginParams, LoginApiResponse, Error>(
-  async ({ username, password }) => {
-    return login({ username, password });
-  },
-);
-
-export const persistTokenFx = createEffect<{ token: string; remember: boolean }, void>(
-  ({ token, remember }) => {
+export const saveTokenFx = createEffect(
+  async ({ token, remember }: { token: string; remember: boolean }) => {
     setToken(token, remember);
   },
 );
 
-export const clearTokenFx = createEffect<void, void>(() => {
+export const clearTokenFx = createEffect(async () => {
   clearToken();
 });

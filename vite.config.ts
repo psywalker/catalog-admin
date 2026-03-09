@@ -4,6 +4,7 @@ import svgr from 'vite-plugin-svgr';
 import path from 'node:path';
 
 export default defineConfig({
+  base: '/catalog-admin/',
   plugins: [svgr(), react()],
   server: {
     port: 3000,

@@ -1,12 +1,13 @@
-export type LoginApiRequest = {
+export type LoginParams = {
   username: string;
   password: string;
+  remember: boolean;
 };
 
-export type LoginApiResponse = {
-  id: number;
-  username: string;
-  email: string;
-  accessToken: string;
-  refreshToken: string;
+export type LoginResponse = {
+  token?: string;
+  accessToken?: string;
+  refreshToken?: string;
+  id?: number;
+  username?: string;
 };

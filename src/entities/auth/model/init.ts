@@ -1,26 +1,33 @@
 import { sample } from 'effector';
-import { loginFx, persistTokenFx, clearTokenFx } from './effects';
-import { $token, $error, logout } from './stores';
+import { loginFx, saveTokenFx, clearTokenFx } from './effects';
+import { $token, logout } from './stores';
 
-sample({
-  clock: loginFx.doneData,
-  fn: (res) => res.accessToken,
-  target: $token,
-});
+const pickToken = (res: { token?: string; accessToken?: string }) =>
+  res.accessToken ?? res.token ?? null;
 
 sample({
   clock: loginFx.done,
-  fn: ({ params, result }) => ({ token: result.accessToken, remember: params.remember }),
-  target: persistTokenFx,
+  fn: ({ params, result }) => {
+    const token = pickToken(result);
+    if (!token) throw new Error('Token is missing in login response');
+    return { token, remember: params.remember };
+  },
+  target: saveTokenFx,
 });
 
 sample({
-  clock: loginFx.failData,
-  fn: (err) => err,
-  target: $error,
+  clock: loginFx.doneData,
+  fn: (res) => pickToken(res),
+  target: $token,
 });
 
 sample({
   clock: logout,
   target: clearTokenFx,
+});
+
+sample({
+  clock: clearTokenFx.done,
+  fn: () => null,
+  target: $token,
 });

@@ -1,13 +1,9 @@
+import type { ReactElement } from 'react';
 import { useUnit } from 'effector-react';
 import { Navigate, useLocation } from 'react-router-dom';
-
 import { $isAuth } from '@/entities/auth/model';
 
-type RequireAuthProps = {
-  children: JSX.Element;
-};
-
-export const RequireAuth = ({ children }: RequireAuthProps) => {
+export function RequireAuth({ children }: { children: ReactElement }) {
   const isAuth = useUnit($isAuth);
   const location = useLocation();
 
@@ -16,4 +12,4 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
   }
 
   return children;
-};
+}
