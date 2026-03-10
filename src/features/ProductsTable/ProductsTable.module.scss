@@ -1,9 +1,111 @@
-.tableRoot :global(.ant-checkbox-inner) {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  border: 2px solid #cfd4dc;
-  background: #fff;
+.tableRoot {
+  :global(.ant-checkbox) {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #b2b3b9 !important;
+  }
+
+  :global(.ant-checkbox::after) {
+    width: 22px;
+    height: 22px;
+    color: #3c538e;
+    display: none;
+  }
+
+  :global(.ant-table-row.ant-table-row-selected > td:first-child) {
+    border-left: 3px solid #3c538e;
+    text-align: left;
+  }
+
+  :global(.ant-table-selection-column) {
+    border-left: 3px solid transparent;
+    text-align: left !important;
+  }
+
+  :global(.ant-checkbox-wrapper) {
+    margin-left: 7px;
+  }
+
+  :global(.ant-checkbox-checked) {
+    background: #3c538e;
+  }
+
+  :global(.ant-checkbox-checked:hover) {
+    background: #3c538e !important;
+  }
+
+  :global(.ant-table-tbody .ant-table-cell) {
+    border-top: 1px solid #e2e2e2;
+    border-bottom: 1px solid #e2e2e2;
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  :global(.ant-table-column-sorter) {
+    display: none;
+  }
+
+  :global(.ant-table-thead th:first-child) {
+    padding-right: 4px !important;
+    width: 59px !important;
+    padding-bottom: 23px;
+  }
+
+  :global(.ant-table-tbody td:first-child) {
+    padding-right: 4px !important;
+    width: 59px !important;
+  }
+
+  :global(.ant-table-column-title) {
+    text-align: center;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+  }
+
+  :global(.ant-table-cell) {
+    text-align: center;
+  }
+
+  .nameColumn {
+    text-align: left;
+  }
+}
+
+.headerCell {
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  padding-top: 11px;
+  padding-bottom: 22px !important;
+  color: #b2b3b9 !important;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700 !important;
+  font-size: 16px;
+
+  &::before {
+    display: none;
+  }
+}
+
+.nameColumn {
+  padding-left: 0px !important;
+}
+
+.nameHeaderCell {
+  padding-left: 0px !important;
+}
+
+.skuCell,
+.skuHeaderCell,
+.ratingCell,
+.ratingHeaderCell,
+.priceCell,
+.priceHeaderCell,
+.ant-table-column-title,
+.vendorCell {
+  text-align: center !important;
+  font-size: 16px;
 }
 
 .tableRoot:global(.ant-table-wrapper.ant-table-css-var),
@@ -13,335 +115,170 @@
   --ant-table-header-sort-active-bg: transparent;
 }
 
-.tableRoot :global(.ant-checkbox-wrapper:hover .ant-checkbox-inner) {
-  border-color: #9aa3b2;
-}
-
-.tableRoot :global(.ant-checkbox-inner::after) {
-  display: none !important;
-}
-
-.tableRoot :global(.ant-checkbox-checked .ant-checkbox-inner) {
-  background: #314a95; /* синий как на макете */
-  border-color: #314a95;
-}
-
-.tableRoot :global(.ant-checkbox-indeterminate .ant-checkbox-inner) {
-  background: #314a95;
-  border-color: #314a95;
-}
-.tableRoot :global(.ant-checkbox-indeterminate .ant-checkbox-inner::after) {
-  display: none !important;
-}
-
-.tableRoot :global(.ant-checkbox-input:focus-visible + .ant-checkbox-inner) {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(49, 74, 149, 0.18);
-}
-
-.tableRoot :global(.ant-table-thead > tr > th) {
-  border-bottom: 1px solid transparent;
-}
-
-.tableRoot :global(.ant-table-tbody > tr > td) {
-  border-top: 1px solid #eef0f3;
-  border-bottom: 1px solid #eef0f3;
-  background: #fff;
-}
-
-.tableRoot :global(.ant-table-tbody > tr:hover > td) {
-  background: #f7f9ff;
-}
-
-.tableRoot :global(.ant-table-tbody > tr.ant-table-row-selected > td) {
-  background: #f7f9ff;
-}
-
-.tableRoot :global(.ant-table-tbody > tr.ant-table-row-selected > td:first-child) {
-  position: relative;
-}
-
-.tableRoot :global(.ant-table-tbody > tr.ant-table-row-selected > td:first-child::before) {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: -1px;
-  bottom: -1px;
-  width: 4px;
-  background: #314a95;
-  border-radius: 0 2px 2px 0;
-}
-
-.tableRoot :global(td.ant-table-selection-column) {
-  padding-left: 16px;
-}
-
-.paginationRoot {
-  margin-top: 16px;
-}
-
-.paginationItem {
-  border-radius: 10px;
-}
-
-/* PAGINATION (AntD Table) */
-.tableRoot :global(.ant-table-pagination) {
-  margin: 20px 0 0;
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* список кнопок */
-.tableRoot :global(.ant-pagination) {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px; /* расстояние между кнопками как на макете */
-}
-
-/* prev/next контейнеры */
-.tableRoot :global(.ant-pagination-prev),
-.tableRoot :global(.ant-pagination-next) {
-  min-width: auto;
-  height: auto;
-  margin-inline: 0;
-}
-
-/* prev/next кнопки */
-.tableRoot :global(.ant-pagination-prev button),
-.tableRoot :global(.ant-pagination-next button) {
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-  border: 1px solid #e6e8ee;
-  background: #fff;
-  display: grid;
-  place-items: center;
-  padding: 0;
-}
-
-/* иконки стрелок */
-.tableRoot :global(.ant-pagination-prev .anticon),
-.tableRoot :global(.ant-pagination-next .anticon) {
-  font-size: 16px;
-  color: #8f96a3;
-}
-
-/* hover по стрелкам */
-.tableRoot :global(.ant-pagination-prev button:hover),
-.tableRoot :global(.ant-pagination-next button:hover) {
-  border-color: #cfd4dc;
-}
-
-/* disabled стрелки */
-.tableRoot :global(.ant-pagination-disabled button) {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-/* page item */
-.tableRoot :global(.ant-pagination-item) {
-  width: 30px;
-  height: 30px;
-  margin: 0;
-  border-radius: 4px;
-  border: 1px solid #e6e8ee;
-  background: #fff;
-  display: grid;
-  place-items: center;
-}
-
-/* цифра */
-.tableRoot :global(.ant-pagination-item a) {
-  color: #8f96a3;
-  font-weight: 700;
-  line-height: 1;
-}
-
-/* hover по page */
-.tableRoot :global(.ant-pagination-item:hover) {
-  border-color: #cfd4dc;
-}
-
-/* ACTIVE page */
-.tableRoot :global(.ant-pagination-item-active) {
-  background: #6f7af7; /* фиолетовый как на макете */
-  border-color: #6f7af7;
-}
-
-.tableRoot :global(.ant-pagination-item-active a) {
-  color: #fff;
-}
-
-/* jump ... (если вдруг появятся) */
-.tableRoot :global(.ant-pagination-jump-prev),
-.tableRoot :global(.ant-pagination-jump-next) {
-  margin: 0;
-}
-
-.tableRoot :global(.ant-table-pagination) {
-  margin: 20px 0 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-/* блок текста слева (showTotal) */
-.tableRoot :global(.ant-pagination-total-text) {
-  margin: 0;
-  color: #9aa0a6;
-  font-size: 14px;
-}
-
-/* список страниц справа */
-.tableRoot :global(.ant-pagination) {
-  margin-left: auto; /* на всякий случай */
-}
-
-.tableRoot :global(.ant-pagination.ant-table-pagination) {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* 2) total-text слева */
-.tableRoot :global(.ant-pagination-total-text) {
-  margin: 0;
-  order: 0;
-}
-
-/* 3) остальные элементы пагинации уводим вправо */
-.tableRoot :global(.ant-pagination-prev),
-.tableRoot :global(.ant-pagination-next),
-.tableRoot :global(.ant-pagination-item),
-.tableRoot :global(.ant-pagination-jump-prev),
-.tableRoot :global(.ant-pagination-jump-next) {
-  order: 1;
-}
-
-/* 4) и добавляем "авто-отступ" после total-text, чтобы всё остальное уехало вправо */
-.tableRoot :global(.ant-pagination-total-text) {
-  margin-right: auto;
-}
-
-.totalText {
-  font-size: 14px;
-  line-height: 1;
-  display: flex;
-  gap: 4px;
-  font-weight: 400;
-}
-
-.totalLabel {
-  color: #b0b5bd; /* серый для слова */
-}
-
-.totalValue {
-  color: #111827; /* чёрный для чисел */
-}
-
 .nameCell {
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
 .thumbContainer {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #f2f4f7;
-  flex: 0 0 auto;
+  margin-right: 16px;
 }
 
 .thumb {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.thumbPlaceholder {
-  width: 100%;
-  height: 100%;
-  background: #e6e8ee;
-}
-
-.nameText {
-  display: grid;
-  gap: 2px;
-}
-
-.title {
-  font-weight: 600;
-  color: #111;
-  line-height: 1.2;
-}
-
-.sub {
-  color: #9aa0a6;
-  font-size: 12px;
-  line-height: 1.2;
-}
-
-.ratingOk {
-  color: #111;
-}
-
-.ratingBad {
-  color: #e53935;
-}
-
-.iconBtn {
-  width: 36px;
-  height: 32px;
-  border: none;
-  border-radius: 10px;
-  background: transparent;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-
-  &:hover {
-    background: #f2f4f7;
-  }
-}
-
-/* ----------------------- */
-/* Column-specific className (optional) */
-/* ----------------------- */
-
-.colName {
-}
-
-.colVendor {
-}
-
-.colSku {
-}
-
-.colRating {
-}
-
-.colPrice {
-}
-
-.colAction {
-  text-align: right;
-}
-
-.nameCell {
-  display: flex;
-  gap: 0 10px;
-}
-
-.thumbPlaceholder {
+  width: 48px;
+  height: 48px;
   border-radius: 8px;
+  border: 1px solid #ececeb;
+}
+
+.thumbPlaceholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid #ececeb;
   background: #c4c4c4;
 }
 
-.thumb {
-  width: 48px;
-  height: 48px;
+.title {
+  font-size: 16px;
+  color: #161919;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+}
+
+.sub {
+  font-size: 14px;
+  color: #b2b3b9;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 400;
+}
+
+.ratingBad {
+  color: #f11010;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.ratingOk,
+.ratingNumber {
+  color: black;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.plusButton,
+.dotsButton {
+  border: none;
+  outline: none;
+  box-shadow: none !important;
+  height: 27px !important;
+
+  &:hover {
+    border: none !important;
+  }
+
+  &:disabled {
+    border: none !important;
+  }
+
+  & > span {
+    height: 27px;
+  }
+}
+
+.dotsButton {
+  height: 32px !important;
+  background: none;
+
+  & > span {
+    height: 32px;
+  }
+}
+
+.vendorCell {
+  font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
+}
+.priceCell {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+}
+
+.skuCell {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.priceValue {
+  color: #222222;
+}
+
+.priceFraction {
+  color: #999999;
+}
+
+.priceCurrency {
+  color: #2d2d2d;
+}
+
+.totalText {
+  color: #969b9f;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+.totalStrong {
+  color: #333333;
+}
+
+.paginationRoot {
+  margin-top: 48px !important;
+  margin-bottom: 41px !important;
+  display: flex;
+  gap: 0 8px;
+
+  :global(.ant-pagination-item) {
+    border-radius: 4px;
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    border: 1px solid #ececeb;
+    color: #b2b3b9;
+    margin: 0;
+
+    &:first-child {
+      background: #797fea;
+      border-color: #797fea;
+    }
+  }
+
+  :global(.ant-pagination-item a) {
+    color: #b2b3b9;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 400;
+  }
+
+  :global(.ant-pagination-item-active) {
+    background: #242edb;
+    border-color: #242edb;
+
+    & a:hover {
+      color: #fff;
+    }
+  }
+
+  :global(.ant-pagination-item-active a) {
+    color: white;
+  }
+
+  :global(.ant-pagination-prev),
+  :global(.ant-pagination-next) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b2b3b9;
+    margin: 0;
+  }
+
+  :global(.ant-pagination-total-text) {
+    margin-right: auto;
+  }
 }

@@ -1,0 +1,13 @@
+.addButton {
+  height: 42px;
+  background: #242edb;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 600;
+  display: flex;
+  gap: 0 17px;
+  padding: 0 20px;
+
+  &:hover {
+    background: #121996 !important;
+  }
+}
