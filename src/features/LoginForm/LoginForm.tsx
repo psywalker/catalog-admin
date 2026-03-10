@@ -126,6 +126,10 @@ export const LoginForm = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.credits}>
+        <p>Логин: emilys</p>
+        <p>Пароль: emilyspass</p>
+      </div>
       {loginPending ? <Spin spinning fullscreen description="Загрузка..." /> : null}
 
       <div className={styles.imgContainer}>
