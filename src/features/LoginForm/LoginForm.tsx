@@ -28,14 +28,59 @@ export const LoginForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const clearFieldError = useCallback(
+    (name: keyof LoginValues) => {
+      form.setFields([{ name, errors: [] }]);
+    },
+    [form],
+  );
+
   const clearUsername = useCallback(() => {
     form.setFieldsValue({ username: '' });
     form.setFields([{ name: 'username', errors: [] }]);
   }, [form]);
 
   const togglePassword = useCallback(() => {
-    setShowPassword((v) => !v);
+    setShowPassword((prev) => !prev);
   }, []);
+
+  const handleUsernameChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.value) {
+        clearFieldError('username');
+      }
+    },
+    [clearFieldError],
+  );
+
+  const handlePasswordChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.value) {
+        clearFieldError('password');
+      }
+    },
+    [clearFieldError],
+  );
+
+  const handleClearUsernameKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLSpanElement>) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        clearUsername();
+      }
+    },
+    [clearUsername],
+  );
+
+  const handleTogglePasswordKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLSpanElement>) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        togglePassword();
+      }
+    },
+    [togglePassword],
+  );
 
   const onFinish = useCallback(
     async (values: LoginValues) => {
@@ -43,8 +88,14 @@ export const LoginForm = () => {
       const password = values.password?.trim() ?? '';
 
       const fieldErrors: FieldErrors = [];
-      if (!username) fieldErrors.push({ name: 'username', errors: ['Обязательное поле'] });
-      if (!password) fieldErrors.push({ name: 'password', errors: ['Обязательное поле'] });
+
+      if (!username) {
+        fieldErrors.push({ name: 'username', errors: ['Обязательное поле'] });
+      }
+
+      if (!password) {
+        fieldErrors.push({ name: 'password', errors: ['Обязательное поле'] });
+      }
 
       if (fieldErrors.length) {
         form.setFields(fieldErrors);
@@ -106,10 +157,12 @@ export const LoginForm = () => {
             prefix={<UserIcon className={styles.inputPrefixIcon} />}
             autoComplete="username"
             className={styles.inputLogin}
+            onChange={handleUsernameChange}
             suffix={
               <span
                 className={styles.inputSuffixIcon}
                 onClick={clearUsername}
+                onKeyDown={handleClearUsernameKeyDown}
                 role="button"
                 tabIndex={0}
               >
@@ -132,10 +185,12 @@ export const LoginForm = () => {
             type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
             className={styles.inputPassword}
+            onChange={handlePasswordChange}
             suffix={
               <span
                 className={styles.inputSuffixIcon}
                 onClick={togglePassword}
+                onKeyDown={handleTogglePasswordKeyDown}
                 role="button"
                 tabIndex={0}
               >
