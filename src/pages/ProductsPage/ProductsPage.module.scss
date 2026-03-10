@@ -1,0 +1,51 @@
+.container {
+  background: #f6f6f6;
+  padding-top: 20px;
+}
+
+.search {
+  background: #fff;
+  margin-bottom: 30px;
+  padding: 28px 30px 28px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 404px 1fr;
+
+  @media (max-width: 800px) {
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+  }
+}
+
+.content {
+  background: #fff;
+  padding: 0 30px;
+}
+
+.title {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 0 48px;
+  align-items: center;
+}
+
+.addProduct {
+  display: flex;
+  align-items: center;
+  gap: 0 12px;
+}
+
+.tableHeaderTitle {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+}
