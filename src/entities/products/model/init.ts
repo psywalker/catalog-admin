@@ -10,7 +10,6 @@ import {
   $query,
   $apiProducts,
   $apiTotal,
-  $error,
   $isGateLoaded,
   $isLoading,
   initialLoadStarted,
@@ -51,26 +50,20 @@ sample({
   fn: ({ limit, q }) => ({
     limit,
     skip: 0,
-    q: q.trim() ? q : undefined,
+    q: q?.trim() ? q : undefined,
   }),
   target: fetchProductsFx,
 });
 
 sample({
-  clock: searchCommitted,
-  source: { limit: $limit },
-  fn: ({ limit }, q) => ({
+  clock: refreshRequested,
+  source: { limit: $limit, page: $page, q: $query },
+  fn: ({ limit, page, q }) => ({
     limit,
-    skip: 0,
-    q: q ? q : undefined,
+    skip: (page - 1) * limit,
+    q: q?.trim() ? q : undefined,
   }),
   target: fetchProductsFx,
-});
-
-sample({
-  clock: searchCommitted,
-  fn: () => 1,
-  target: pageChanged,
 });
 
 sample({
@@ -79,12 +72,32 @@ sample({
 });
 
 sample({
-  clock: [pageChanged, refreshRequested],
+  clock: $query.updates,
+  source: $page,
+  filter: (page) => page !== 1,
+  fn: () => 1,
+  target: pageChanged,
+});
+
+sample({
+  clock: $query.updates,
+  source: { limit: $limit, page: $page },
+  filter: ({ page }) => page === 1,
+  fn: ({ limit }, q) => ({
+    limit,
+    skip: 0,
+    q: q?.trim() ? q : undefined,
+  }),
+  target: fetchProductsFx,
+});
+
+sample({
+  clock: pageChanged,
   source: { limit: $limit, page: $page, q: $query },
   fn: ({ limit, page, q }) => ({
     limit,
     skip: (page - 1) * limit,
-    q: q.trim() ? q : undefined,
+    q: q?.trim() ? q : undefined,
   }),
   target: fetchProductsFx,
 });
@@ -111,11 +124,3 @@ sample({
   fn: (res) => res.total,
   target: $apiTotal,
 });
-
-sample({
-  clock: fetchProductsFx.failData,
-  fn: (err) => err,
-  target: $error,
-});
-
-$isLoading.on(fetchProductsFx.pending, (_, pending) => pending);

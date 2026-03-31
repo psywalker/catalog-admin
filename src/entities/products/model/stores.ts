@@ -1,5 +1,6 @@
 import { createEffect, createEvent, createStore, combine } from 'effector';
 import type { Product } from '../api/types';
+import { fetchProductsFx } from './effects';
 
 export const pageChanged = createEvent<number>();
 export const searchInputChanged = createEvent<string>();
@@ -7,7 +8,7 @@ export const searchCommitted = createEvent<string>();
 export const refreshRequested = createEvent();
 
 export type NewProductPayload = {
-  id: number;
+  id?: number;
   title: string;
   category: string;
   price: number;
@@ -32,6 +33,7 @@ export const $searchInput = createStore('').on(searchInputChanged, (_, v) => v);
 export const $query = createStore('');
 export const $apiProducts = createStore<Product[]>([]);
 export const $apiTotal = createStore(0);
+
 export const $localAdded = createStore<Product[]>([]).on(productAdded, (list, p) => {
   const localProduct: Product = {
     id: p.id ?? Date.now(),
@@ -46,6 +48,7 @@ export const $localAdded = createStore<Product[]>([]).on(productAdded, (list, p)
 
   return [localProduct, ...list];
 });
+
 export const $products = combine(
   $apiProducts,
   $localAdded,
@@ -58,13 +61,18 @@ export const $products = combine(
     if (!hasSearch && page === 1 && local.length) {
       return [...local, ...api].slice(0, limit);
     }
+
     return api;
   },
 );
+
 export const $total = combine($apiTotal, $localAdded, $query, (apiTotal, local, q) => {
   const hasSearch = q.trim().length > 0;
   return hasSearch ? apiTotal : apiTotal + local.length;
 });
-export const $isLoading = createStore(false);
-export const $isLoaded = createStore(false);
-export const $error = createStore<Error | null>(null);
+export const $isLoading = createStore(false).on(fetchProductsFx.pending, (_, pending) => pending);
+export const $isLoaded = createStore(false).on(fetchProductsFx.doneData, () => true);
+
+export const $error = createStore<Error | null>(null)
+  .on(fetchProductsFx.failData, (_, err) => err)
+  .reset(fetchProductsFx, fetchProductsFx.doneData);
