@@ -1,18 +1,18 @@
+import { useCallback } from 'react';
+import { Input } from 'antd';
+
 import styles from './Search.module.scss';
 import SearchIcon from '@/assets/search.svg?react';
-import { Input } from 'antd';
-import { useCallback } from 'react';
+import { useSearch } from './model/useSearch';
 
-export interface SearchProps {
-  onChange?: (value: string) => void;
-}
+export const Search = () => {
+  const { value, handleChange } = useSearch();
 
-export const Search = ({ onChange }: SearchProps) => {
-  const handleChange = useCallback(
+  const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      onChange?.(e.target.value);
+      handleChange(e.target.value);
     },
-    [onChange],
+    [handleChange],
   );
 
   return (
@@ -21,7 +21,8 @@ export const Search = ({ onChange }: SearchProps) => {
         rootClassName={styles.input}
         className={styles.field}
         placeholder="Найти"
-        onChange={handleChange}
+        value={value}
+        onChange={onChange}
         allowClear
         prefix={<SearchIcon className={styles.icon} />}
       />

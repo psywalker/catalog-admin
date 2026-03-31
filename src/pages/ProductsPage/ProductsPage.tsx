@@ -1,72 +1,25 @@
 import styles from './ProductsPage.module.scss';
-import { Search } from '@/features/Search';
-import { ProductsTable } from '@/features/ProductsTable';
-import { AddProductModal } from '@/features/AddProductModal';
-import { Button, message } from 'antd';
-import { useGate, useUnit } from 'effector-react';
 
-import RefreshIcon from '@/assets/refresh.svg?react';
 import { Spin } from 'antd';
-import {
-  ProductsPageGate,
-  $products,
-  $isLoading,
-  $isAdding,
-  $error,
-  $page,
-  $total,
-  $limit,
-  pageChanged,
-  searchInputChanged,
-  refreshRequested,
-  addProductFx,
-  type NewProductPayload,
-} from '@/entities/products/model';
+
+import { Search } from '@/features/Search';
+import { AddProductModal } from '@/features/AddProductModal';
+import { RefreshProductsButton } from '@/features/RefreshProductsButton';
+import { ProductsTable } from '@/widgets/ProductsTable';
+import { useProductsPage } from './model/useProductsPage';
 
 export const ProductsPage = () => {
-  useGate(ProductsPageGate);
-
-  const {
-    products,
-    isLoading,
-    isAdding,
-    error,
-    page,
-    total,
-    limit,
-    refresh,
-    onSearchChange,
-    onPageChange,
-    addProduct,
-  } = useUnit({
-    products: $products,
-    isLoading: $isLoading,
-    isAdding: $isAdding,
-    error: $error,
-    page: $page,
-    total: $total,
-    limit: $limit,
-
-    refresh: refreshRequested,
-    onSearchChange: searchInputChanged,
-    onPageChange: pageChanged,
-    addProduct: addProductFx,
-  });
-
-  const handleAddSubmit = async (data: NewProductPayload) => {
-    await addProduct(data);
-    message.success({ content: 'Товар добавлен', duration: 2 });
-  };
+  const { products, isLoading, error, page, total, limit, onPageChange } = useProductsPage();
 
   return (
     <div className={styles.container}>
-      <Spin spinning={isLoading || isAdding} fullscreen description="Loading..." size="large" />
+      <Spin spinning={isLoading} fullscreen description="Loading..." size="large" />
 
       <div className={styles.search}>
         <h2 className={styles.title}>Товары</h2>
 
         <div className={styles.searchField}>
-          <Search onChange={onSearchChange} />
+          <Search />
         </div>
       </div>
 
@@ -75,8 +28,8 @@ export const ProductsPage = () => {
           <h2 className={styles.tableHeaderTitle}>Все позиции</h2>
 
           <div className={styles.addProduct}>
-            <Button icon={<RefreshIcon />} onClick={refresh} className={styles.refreshButton} />
-            <AddProductModal onSubmit={handleAddSubmit} isSubmitting={isAdding} />
+            <RefreshProductsButton className={styles.refreshButton} />
+            <AddProductModal />
           </div>
         </header>
 

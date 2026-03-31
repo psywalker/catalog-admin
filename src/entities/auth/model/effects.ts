@@ -1,8 +1,12 @@
 import { createEffect } from 'effector';
-import { fetchLogin } from '../api/fetchLogin';
-import { setToken, clearToken } from '@/shared/lib/storage';
 
-export const loginFx = createEffect(fetchLogin);
+import { fetchLogin, type LoginResponse } from '../api';
+import type { LoginCommand } from './types';
+import { clearToken, setToken } from '@/shared/lib/storage';
+
+export const loginFx = createEffect<LoginCommand, LoginResponse>(async ({ username, password }) => {
+  return fetchLogin({ username, password });
+});
 
 export const saveTokenFx = createEffect(
   async ({ token, remember }: { token: string; remember: boolean }) => {

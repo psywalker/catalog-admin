@@ -1,4 +1,4 @@
 import { createEffect } from 'effector';
-import { fetchProducts } from '../api/fetchProducts.ts';
+import { fetchProducts, type FetchProductsParams, type ProductsResponse } from '../api';
 
-export const fetchProductsFx = createEffect(fetchProducts);
+export const fetchProductsFx = createEffect<FetchProductsParams, ProductsResponse>(fetchProducts);

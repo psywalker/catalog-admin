@@ -18,3 +18,9 @@ export type ProductsResponse = {
   skip: number;
   limit: number;
 };
+
+export type FetchProductsParams = {
+  limit: number;
+  skip: number;
+  q?: string;
+};

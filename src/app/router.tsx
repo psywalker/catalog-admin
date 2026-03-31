@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 
-import { LoginPage } from '@/pages/LoginPage/LoginPage';
-import { ProductsPage } from '@/pages/ProductsPage/ProductsPage';
+import { LoginPage } from '@/pages/LoginPage';
+import { ProductsPage } from '@/pages/ProductsPage';
 import { RequireAuth } from '@/shared/routing/guards/RequireAuth';
 import { RedirectIfAuth } from '@/shared/routing/guards/RedirectIfAuth';
 

@@ -1,7 +1,6 @@
-export type LoginParams = {
+export type LoginRequest = {
   username: string;
   password: string;
-  remember: boolean;
 };
 
 export type LoginResponse = {
