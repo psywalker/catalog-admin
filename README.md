@@ -1,74 +1,198 @@
-# React + TypeScript + Vite
+# Catalog Admin
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Тестовое frontend-приложение для работы со списком товаров.
 
-Currently, two official plugins are available:
+Проект реализует два основных экрана:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- экран авторизации
+- страницу со списком товаров
 
-## React Compiler
+Приложение загружает данные из публичного API DummyJSON и позволяет пользователю взаимодействовать со списком товаров: искать, сортировать, переключать страницы и добавлять новые позиции локально через интерфейс.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Что реализовано
 
-## Expanding the ESLint configuration
+### Авторизация
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- форма входа с валидацией обязательных полей
+- обработка ошибки авторизации
+- логика `remember me`
+  - при включённом чекбоксе сессия сохраняется после закрытия браузера
+  - при выключенном чекбоксе сессия хранится только в рамках текущей вкладки или сессии
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Страница товаров
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- загрузка списка товаров из API
+- поиск товаров через API
+- debounce для поиска
+- пагинация
+- сортировка по колонкам
+- хранение состояния страницы и поиска
+- индикация загрузки
+- подсветка рейтинга красным цветом, если он ниже `3`
+- локальное добавление товара через модальное окно
+- toast-уведомление после успешного добавления
+- выбор строк таблицы
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Используемые технологии
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- React
+- TypeScript
+- Vite
+- Effector
+- Patronum
+- Ant Design
+- CSS Modules
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Почему были выбраны эти решения
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-# catalog-admin
+### React + TypeScript
+
+Базовый и ожидаемый стек для тестового задания такого типа.  
+TypeScript используется со строгой типизацией, чтобы уменьшить количество неявных ошибок и сделать код предсказуемее.
+
+### Vite
+
+Использован как быстрый и удобный инструмент сборки для локальной разработки.
+
+### Effector
+
+Выбран для явного разделения состояний, событий и эффектов.  
+В проекте это удобно для:
+
+- загрузки товаров
+- авторизации
+- синхронизации поиска, пагинации и API-запросов
+- хранения UI-состояния в понятной и предсказуемой форме
+
+### Ant Design
+
+Использован для ускорения сборки интерфейса и базовых компонентов, прежде всего:
+
+- формы
+- таблицы
+- модального окна
+- уведомлений
+- спиннеров
+
+При этом внешний вид компонентов дополнительно приводился к макету через CSS Modules и кастомные стили.
+
+## Архитектура
+
+Проект разбит на несколько уровней:
+
+- `app` — точка входа, роутинг, инициализация приложения
+- `entities` — бизнес-сущности, например `auth` и `products`
+- `features` — пользовательские сценарии и отдельные фичи, например таблица товаров, поиск, модальное окно добавления
+- `pages` — страницы приложения
+- `shared` — общие утилиты, guards и переиспользуемые части
+
+## API
+
+Используются публичные endpoints DummyJSON:
+
+- авторизация: DummyJSON Auth
+- товары: DummyJSON Products
+
+## Основные сценарии
+
+### Вход
+
+Пользователь вводит логин и пароль, после чего выполняется запрос авторизации.  
+При успешном входе происходит переход на страницу товаров.
+
+### Поиск
+
+Поиск работает через API.  
+Ввод пользователя проходит через debounce, после чего выполняется запрос.  
+При изменении поискового запроса список обновляется с первой страницы.
+
+### Сортировка
+
+Сортировка доступна по колонкам таблицы.  
+Состояние сортировки хранится на уровне интерфейса таблицы.
+
+### Добавление товара
+
+Добавление реализовано локально, без отправки на сервер.  
+После успешного добавления показывается toast.
+
+## Локальный запуск
+
+### 1. Установить зависимости
+
+    pnpm install
+
+### 2. Запустить проект в dev-режиме
+
+    pnpm dev
+
+После этого приложение будет доступно по локальному адресу, который покажет Vite в терминале.
+
+### 3. Сборка production-версии
+
+    pnpm build
+
+### 4. Локальный просмотр production-сборки
+
+    pnpm preview
+
+## Доступные команды
+
+    pnpm dev
+    pnpm build
+    pnpm preview
+    pnpm lint
+
+## Особенности реализации
+
+### Работа с поиском
+
+Поиск вынесен в отдельную логику с debounce, чтобы не отправлять запрос на каждый символ мгновенно.  
+Также была доработана логика, чтобы избежать двойных запросов при смене поисковой строки и сбросе страницы.
+
+### Обработка ошибок загрузки товаров
+
+Ошибка загрузки хранится в отдельном сторе и сбрасывается:
+
+- при новом запросе
+- при успешном ответе
+
+Это нужно для того, чтобы в интерфейсе не оставалась устаревшая ошибка после повторной загрузки.
+
+### Добавление товара
+
+Так как по условию тестового задания сохранение через API не требовалось, новый товар добавляется локально и сразу отображается в таблице.
+
+## Что можно улучшить дальше
+
+Если развивать проект дальше, я бы добавил:
+
+- полноценное серверное сохранение новых товаров
+- редактирование товаров
+- удаление товаров
+- более явное хранение состояния сортировки в сторе
+- unit/integration тесты
+- e2e тесты на авторизацию и работу со списком товаров
+- обработку пустых состояний и более подробные error states
+- адаптивную версию под меньшие экраны
+
+## Соответствие заданию
+
+Реализованы требования из тестового задания:
+
+- React 18+
+- TypeScript
+- авторизация
+- remember me
+- список товаров
+- поиск через API
+- сортировка
+- пагинация
+- индикаторы загрузки
+- добавление товара через UI
+- подсветка низкого рейтинга
+- визуальная близость к макету
+
+## Примечание
+
+Проект ориентирован на актуальную версию Google Chrome, как и требовалось в задании.
